@@ -1,0 +1,22 @@
+public int tiempoDeDemoraEnMinutos(CalculadorDeDistancia calcDist, CalculadorDeDemora calcDem) {
+	return accionPorParada.tiempoDeDemoraEnMinutos(CalculadorDeDistancia calcDist, CalculadorDeDemora calcDem, paradas);
+}
+
+
+
+// DetenerseEnCadaParada
+						 1      2
+List<int> minutosPorParada;  --> [1,2]  --> O -> P1 -> P2 -> D
+//paradas --> [O, P1, P2, D]
+public int tiempoDeDemoraEnMinutos(CalculadorDeDistancia calcDist, CalculadorDeDemora calcDem, List<Direccion> paradas){
+	float[] distancias = new Float[paradas.length-1];	
+	for(int i = 0; i < paradas.length; i++) {
+		distancias[i] = calcDist.distanciaEntre(paradas[i], paradas[i+1]);
+	}
+	return distancias.stream().map(distancia -> calcDem.tiempoDeDemoraEnMinutos(distancia));
+}
+
+// NotificarEstado
+public int tiempoDeDemoraEnMinutos(CalculadorDeDistancia calcDist, CalculadorDeDemora calcDem, List<Direccion> paradas){
+	return calcDem.tiempoDeDemoraEnMinutos(calcDist.distanciaEntre(paradas[0], paradas[paradas.size() -1]));
+}
